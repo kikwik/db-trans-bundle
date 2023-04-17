@@ -15,3 +15,12 @@ $ composer require kikwik/db-trans-bundle
 
 Configuration
 -------------
+
+Create the `config/packages/kikwik_db_trans.yaml` config file and define the locales (and clear the cache)
+
+```yaml
+kikwik_db_trans:
+    domain: db_messages
+    locales: [ it, en ]
+```
+
