@@ -5,9 +5,18 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
   <services>
 
-    <service id="kikwik_db_trans.translation.loader.db" class="Kikwik\DbTransBundle\Loader\DbLoader">
+    <!-- Loader\DbLoader -->
+    <service id="kikwik_db_trans.loader.db_loader" class="Kikwik\DbTransBundle\Loader\DbLoader">
+      <argument type="service" id="kikwik_db_trans.repository.translation_repository"/>
       <tag name="translation.loader" alias="db"/>
     </service>
+
+    <!-- Loader\DbLoader -->
+    <service id="kikwik_db_trans.repository.translation_repository" class="Kikwik\DbTransBundle\Repository\TranslationRepository">
+      <argument type="service" id="doctrine"/>
+      <tag name="doctrine.repository_service"/>
+    </service>
+    <service id="Kikwik\DbTransBundle\Repository\TranslationRepository" alias="kikwik_db_trans.repository.translation_repository"/>
 
   </services>
 </container>

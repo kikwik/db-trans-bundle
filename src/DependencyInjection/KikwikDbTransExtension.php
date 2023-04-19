@@ -17,6 +17,7 @@ class KikwikDbTransExtension extends Extension
         $configuration = $this->getConfiguration($configs, $container);
         $config = $this->processConfiguration($configuration, $configs);
 
+
         // make the empty translation files in the default translation
         $translationDir = $container->getParameter('translator.default_path');
         foreach($config['locales'] as $locale)

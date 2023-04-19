@@ -2,6 +2,8 @@
 
 namespace Kikwik\DbTransBundle\Loader;
 
+use Kikwik\DbTransBundle\Entity\Translation;
+use Kikwik\DbTransBundle\Repository\TranslationRepository;
 use Symfony\Component\Translation\Exception\InvalidResourceException;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 use Symfony\Component\Translation\Loader\LoaderInterface;
@@ -9,6 +11,16 @@ use Symfony\Component\Translation\MessageCatalogue;
 
 class DbLoader implements LoaderInterface
 {
+    /**
+     * @var TranslationRepository
+     */
+    private $translationRepository;
+
+    public function __construct(TranslationRepository $translationRepository)
+    {
+        $this->translationRepository = $translationRepository;
+    }
+
     /**
      * Loads a locale.
      *
@@ -23,18 +35,18 @@ class DbLoader implements LoaderInterface
      */
     public function load($resource, string $locale, string $domain = 'messages')
     {
-        // TODO: load messages for $locale and $domain from db
-        // example:
         $messages = [
-            $domain => [
-                'company.sito'=>'wu.wu.wu.'.$locale,
-                'company.mail'=>'me@site.'.$locale,
-            ]
+            $domain => []
         ];
 
-        $catalogue = new MessageCatalogue($locale, $messages);
+        $translations = $this->translationRepository->findByDomainAndLocale($domain, $locale);
+        foreach($translations as $translation)
+        {
+            /** @var Translation $translation */
+            $messages[$domain][$translation->getMessageId()] = $translation->getMessage();
+        }
 
-        return $catalogue;
+        return new MessageCatalogue($locale, $messages);
     }
 
 }
