@@ -21,6 +21,8 @@ class KikwikDbTransExtension extends Extension
         $importMessagesCommand->setArgument('$domainPrefix', $config['domainPrefix']);
         $importMessagesCommand->setArgument('$locales', $config['locales']);
 
+        $transExtension = $container->getDefinition('kikwik_db_trans.twig.trans_extension');
+        $transExtension->setArgument('$domainPrefix', $config['domainPrefix']);
     }
 
 }

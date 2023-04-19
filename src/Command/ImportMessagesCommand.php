@@ -4,13 +4,11 @@ namespace Kikwik\DbTransBundle\Command;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Kikwik\DbTransBundle\Entity\Translation;
-use Kikwik\DbTransBundle\Repository\TranslationRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -111,6 +109,9 @@ class ImportMessagesCommand extends Command
 
             $io->success(sprintf('Translation in domain %s for locale %s: %d new, %d updated', $dbDomain, $locale, $addCount, $updateCount));
         }
+
+        $command = $this->getApplication()->find('cache:clear');
+        $command->run(new ArgvInput(), $output);
 
         return Command::SUCCESS;
     }

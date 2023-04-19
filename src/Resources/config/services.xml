@@ -26,5 +26,13 @@
       <tag name="console.command" command="kikwik:db-trans:import-messages"/>
     </service>
 
+    <!-- Twig\TransExtension -->
+    <service id="kikwik_db_trans.twig.trans_extension" class="Kikwik\DbTransBundle\Twig\TransExtension">
+      <argument type="service" id="twig"/>
+      <argument type="service" id="router"/>
+      <argument type="service" id="security.helper"/>
+      <tag name="twig.extension"/>
+    </service>
+
   </services>
 </container>

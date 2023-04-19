@@ -15,7 +15,9 @@
         "doctrine/doctrine-bundle": "^2.0",
         "symfony/console": "^5.3|^6.0",
         "symfony/framework-bundle": "^5.3|^6.0",
-        "symfony/translation": "^5.3|^6.0"
+        "symfony/security-bundle": "^5.3|^6.0",
+        "symfony/translation": "^5.3|^6.0",
+        "twig/twig": "^3.5"
     },
     "autoload": {
         "psr-4": {
