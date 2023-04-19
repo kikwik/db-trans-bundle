@@ -30,8 +30,25 @@
     <service id="kikwik_db_trans.twig.trans_extension" class="Kikwik\DbTransBundle\Twig\TransExtension">
       <argument type="service" id="twig"/>
       <argument type="service" id="router"/>
-      <argument type="service" id="security.helper"/>
+      <argument type="service" id="security.authorization_checker"/>
       <tag name="twig.extension"/>
+    </service>
+
+    <!-- EventListener\KernelResponseListener -->
+    <service id="kikwik_db_trans.event_listener.kernel_response_listener" class="Kikwik\DbTransBundle\EventListener\KernelResponseListener">
+      <argument type="service" id="security.authorization_checker"/>
+      <tag name="kernel.event_listener" event="kernel.response"/>
+    </service>
+
+    <!--Controller\TransController -->
+    <service id="kikwik_db_trans.controller.trans_controller" class="Kikwik\DbTransBundle\Controller\TransController" public="true">
+      <argument type="service" id="doctrine" />
+      <argument type="service" id="kernel" />
+      <argument type="service" id="router" />
+      <tag name="controller.service_arguments"/>
+      <call method="setContainer">
+        <argument type="service" id="service_container"/>
+      </call>
     </service>
 
   </services>

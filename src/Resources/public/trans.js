@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
-    let transModal = document.getElementById("trans-modal");
-    let transModalContent = transModal.querySelector('.modal-content');
+    let transModal = document.querySelector('.js-trans-modal');
+    let transModalContent = transModal.querySelector('.js-trans-modal-content');
 
     window.onclick = function(event) {
         if (event.target == transModal) {

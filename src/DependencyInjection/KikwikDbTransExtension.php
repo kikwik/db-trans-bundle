@@ -23,6 +23,9 @@ class KikwikDbTransExtension extends Extension
 
         $transExtension = $container->getDefinition('kikwik_db_trans.twig.trans_extension');
         $transExtension->setArgument('$domainPrefix', $config['domainPrefix']);
+
+        $transController = $container->getDefinition('kikwik_db_trans.controller.trans_controller');
+        $transController->setArgument('$locales', $config['locales']);
     }
 
 }

@@ -16,7 +16,7 @@
 }
 
 /* The Modal (background) */
-#trans-modal {
+.js-trans-modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 99999; /* Sit on top */
@@ -31,7 +31,7 @@
 }
 
 /* Modal Content */
-#trans-modal .modal-content {
+.js-trans-modal .js-trans-modal-content {
     background-color: #fefefe;
     margin: auto;
     padding: 20px;
@@ -39,17 +39,3 @@
     width: 80%;
 }
 
-/* The Close Button */
-#trans-modal .close {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-#trans-modal .close:hover,
-#trans-modal .close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}

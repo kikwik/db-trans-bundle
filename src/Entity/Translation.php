@@ -116,7 +116,7 @@ class Translation
     /**
      * @return string
      */
-    public function getMessage(): string
+    public function getMessage(): ?string
     {
         return $this->message;
     }
@@ -125,7 +125,7 @@ class Translation
      * @param string $message
      * @return Translation
      */
-    public function setMessage(string $message): Translation
+    public function setMessage(?string $message): Translation
     {
         $this->message = $message;
         return $this;

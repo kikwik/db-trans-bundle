@@ -3,6 +3,7 @@
 namespace Kikwik\DbTransBundle\Twig;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
@@ -23,16 +24,16 @@ class TransExtension extends AbstractExtension
      */
     private $domainPrefix;
     /**
-     * @var Security
+     * @var AuthorizationCheckerInterface
      */
-    private $security;
+    private $authorizationChecker;
 
-    public function __construct(Environment $twig, UrlGeneratorInterface $urlGenerator, Security $security, string $domainPrefix)
+    public function __construct(Environment $twig, UrlGeneratorInterface $urlGenerator, AuthorizationCheckerInterface $authorizationChecker, string $domainPrefix)
     {
         $this->twig = $twig;
         $this->urlGenerator = $urlGenerator;
         $this->domainPrefix = $domainPrefix;
-        $this->security = $security;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     public function getFunctions(): array
@@ -66,7 +67,7 @@ class TransExtension extends AbstractExtension
     public function editableDbTrans($message, $arguments = [], string $domain = null, string $locale = null, int $count = null)
     {
         $translatedValue = $this->dbTrans($message, $arguments, $domain, $locale, $count);
-        if($this->security->isGranted('ROLE_TRANSLATOR'))
+        if($this->authorizationChecker->isGranted('ROLE_TRANSLATOR'))
         {
             if (null === $domain) {
                 $domain = 'messages';
@@ -75,9 +76,9 @@ class TransExtension extends AbstractExtension
             {
                 $translatedValue = '&nbsp;';
             }
-            return sprintf('<span class="js-trans-message">%s <img class="js-trans-message-edit" data-url="%s" style="display: none;" src="/bundles/kikwikdbtrans/trans.png"/></span>',
+            return sprintf('<span class="js-trans-message"> %s <img class="js-trans-message-edit" data-url="%s" style="display: none;" src="/bundles/kikwikdbtrans/trans.png"/></span>',
                 $translatedValue,
-                '' //$this->urlGenerator->generate('my_edit_route',['transDomain'=>$this->domainPrefix.$domain, 'transKey'=>$message])
+                $this->urlGenerator->generate('kikwik_db_trans_bundle_translation_edit',['dbDomain'=>$this->domainPrefix.$domain, 'messageId'=>$message]),
             );
         }
         return $translatedValue;

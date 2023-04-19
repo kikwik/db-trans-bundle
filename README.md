@@ -25,6 +25,14 @@ kikwik_db_trans:
     locales: [ it, en ]
 ```
 
+Import routes bundle in `config/routes/kikwik_db_trans.yaml`:
+
+```yaml
+kikwik_db_trans_bundle:
+    resource: '@KikwikDbTransBundle/Resources/config/routes.xml'
+    prefix: '/'
+```
+
 Run the `kikwik:db-trans:import-messages` command to init the database translation and import messages from an existing catalogue with the domain as parameter:
 
 ```console
