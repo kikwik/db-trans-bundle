@@ -20,7 +20,13 @@ Create the `config/packages/kikwik_db_trans.yaml` config file and define the loc
 
 ```yaml
 kikwik_db_trans:
-    domain: db_messages
     locales: [ it, en ]
 ```
 
+
+Run the `kikwik:db-trans:import-messages` command to init the database translation and import messages from an existing catalogue, 
+pass the domain as parameter (for each enabled locale will be created a file named `db_domain.locale.db` in the translation directory):
+
+```console
+$ ./bin/console kikwik:db-trans:import-messages messages
+```

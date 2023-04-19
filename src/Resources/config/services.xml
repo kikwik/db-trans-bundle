@@ -11,12 +11,20 @@
       <tag name="translation.loader" alias="db"/>
     </service>
 
-    <!-- Loader\DbLoader -->
+    <!-- Repository\TranslationRepository -->
     <service id="kikwik_db_trans.repository.translation_repository" class="Kikwik\DbTransBundle\Repository\TranslationRepository">
       <argument type="service" id="doctrine"/>
       <tag name="doctrine.repository_service"/>
     </service>
     <service id="Kikwik\DbTransBundle\Repository\TranslationRepository" alias="kikwik_db_trans.repository.translation_repository"/>
+
+    <!-- Command\ImportMessagesCommand -->
+    <service id="kikwik_db_trans.command.import_messages_command" class="Kikwik\DbTransBundle\Command\ImportMessagesCommand">
+      <argument type="service" id="translator"/>
+      <argument type="service" id="doctrine"/>
+      <argument type="service" id="kernel"/>
+      <tag name="console.command" command="kikwik:db-trans:import-messages"/>
+    </service>
 
   </services>
 </container>

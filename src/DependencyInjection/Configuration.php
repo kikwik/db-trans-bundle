@@ -14,7 +14,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('domain')->defaultValue('db_messages')->end()
+                ->scalarNode('domainPrefix')->defaultValue('db_')->end()
                 ->arrayNode('locales')
                     ->scalarPrototype()->end()
                 ->end()
