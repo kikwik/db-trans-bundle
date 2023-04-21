@@ -74,7 +74,7 @@ class TransExtension extends AbstractExtension
             }
             if(!$translatedValue)
             {
-                $translatedValue = '&nbsp;';
+                $translatedValue = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             }
             return sprintf('<span class="js-trans-message"> %s <img class="js-trans-message-edit" data-url="%s" style="display: none;" src="/bundles/kikwikdbtrans/trans.png"/></span>',
                 $translatedValue,

@@ -1,3 +1,6 @@
+.js-trans-message{
+    background: rgba(241, 241, 23, 0.34);
+}
 .js-trans-message:hover{
     background: #f1f117;
 }

@@ -6,9 +6,10 @@ use Doctrine\Persistence\ManagerRegistry;
 use Kikwik\DbTransBundle\Entity\Translation;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -53,17 +54,30 @@ class ImportMessagesCommand extends Command
     protected function configure()
     {
         $this->addArgument('domain',InputArgument::OPTIONAL, 'The domain to import', 'messages');
+        $this->addOption('reset',null,InputOption::VALUE_NONE,'Reset existing translation to the original value');
+        $this->addOption('locale',null,InputOption::VALUE_OPTIONAL,'Restrict the import to a single locale');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
 
+        if($input->getOption('locale') && !in_array($input->getOption('locale'), $this->locales))
+        {
+            $io->error(sprintf('Locale "%s" is not defined. Available locales are: %s',$input->getOption('locale'),implode(', ',$this->locales)));
+            return Command::FAILURE;
+        }
+
         $domain = $input->getArgument('domain');
         $io->note('Importing Translations for '.$domain. ' domain');
 
         foreach($this->locales as $locale)
         {
+            if($input->getOption('locale') && $input->getOption('locale') != $locale)
+            {
+                continue;
+            }
+
             $dbDomain = $this->domainPrefix.$domain;
 
             $transClass = Translation::class;
@@ -86,13 +100,14 @@ class ImportMessagesCommand extends Command
                     $translation->setDomain($dbDomain);
                     $translation->setLocale($locale);
                     $translation->setMessageId($messageId);
+                    $translation->setMessage($message);
                     $addCount++;
                 }
-                else
+                elseif($input->getOption('reset'))
                 {
+                    $translation->setMessage($message);
                     $updateCount++;
                 }
-                $translation->setMessage($message);
                 $this->doctrine->getManager()->persist($translation);
                 $this->doctrine->getManager()->flush();
 
@@ -111,7 +126,7 @@ class ImportMessagesCommand extends Command
         }
 
         $command = $this->getApplication()->find('cache:clear');
-        $command->run(new ArgvInput(), $output);
+        $command->run(new ArrayInput([]), $output);
 
         return Command::SUCCESS;
     }
