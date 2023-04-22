@@ -2,7 +2,9 @@
 
 namespace Kikwik\DbTransBundle\Entity;
 
-class Translation
+use Kikwik\DbTransBundle\Interfaces\TranslationEntityInterface;
+
+class Translation implements TranslationEntityInterface
 {
     /**************************************/
     /* PROPERTIES                         */
@@ -71,7 +73,7 @@ class Translation
      * @param string $domain
      * @return Translation
      */
-    public function setDomain(string $domain): Translation
+    public function setDomain(string $domain): TranslationEntityInterface
     {
         $this->domain = $domain;
         return $this;
@@ -89,7 +91,7 @@ class Translation
      * @param string $locale
      * @return Translation
      */
-    public function setLocale(string $locale): Translation
+    public function setLocale(string $locale): TranslationEntityInterface
     {
         $this->locale = $locale;
         return $this;
@@ -107,7 +109,7 @@ class Translation
      * @param string $messageId
      * @return Translation
      */
-    public function setMessageId(string $messageId): Translation
+    public function setMessageId(string $messageId): TranslationEntityInterface
     {
         $this->messageId = $messageId;
         return $this;
@@ -125,7 +127,7 @@ class Translation
      * @param string $message
      * @return Translation
      */
-    public function setMessage(?string $message): Translation
+    public function setMessage(?string $message): TranslationEntityInterface
     {
         $this->message = $message;
         return $this;

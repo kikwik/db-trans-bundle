@@ -2,8 +2,9 @@
 
 namespace Kikwik\DbTransBundle\Loader;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Kikwik\DbTransBundle\Entity\Translation;
-use Kikwik\DbTransBundle\Repository\TranslationRepository;
+use Kikwik\DbTransBundle\Interfaces\TranslationEntityInterface;
 use Symfony\Component\Translation\Exception\InvalidResourceException;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 use Symfony\Component\Translation\Loader\LoaderInterface;
@@ -12,13 +13,13 @@ use Symfony\Component\Translation\MessageCatalogue;
 class DbLoader implements LoaderInterface
 {
     /**
-     * @var TranslationRepository
+     * @var ManagerRegistry
      */
-    private $translationRepository;
+    private $doctrine;
 
-    public function __construct(TranslationRepository $translationRepository)
+    public function __construct(ManagerRegistry $doctrine)
     {
-        $this->translationRepository = $translationRepository;
+        $this->doctrine = $doctrine;
     }
 
     /**
@@ -39,10 +40,13 @@ class DbLoader implements LoaderInterface
             $domain => []
         ];
 
-        $translations = $this->translationRepository->findByDomainAndLocale($domain, $locale);
+        $transClass = Translation::class;
+        $transRepo = $this->doctrine->getRepository($transClass);
+
+        $translations = $transRepo->findBy(['domain'=>$domain, 'locale'=>$locale]);
         foreach($translations as $translation)
         {
-            /** @var Translation $translation */
+            /** @var TranslationEntityInterface $translation */
             $messages[$domain][$translation->getMessageId()] = $translation->getMessage();
         }
 

@@ -7,16 +7,9 @@
 
     <!-- Loader\DbLoader -->
     <service id="kikwik_db_trans.loader.db_loader" class="Kikwik\DbTransBundle\Loader\DbLoader">
-      <argument type="service" id="kikwik_db_trans.repository.translation_repository"/>
+      <argument type="service" id="doctrine"/>
       <tag name="translation.loader" alias="db"/>
     </service>
-
-    <!-- Repository\TranslationRepository -->
-    <service id="kikwik_db_trans.repository.translation_repository" class="Kikwik\DbTransBundle\Repository\TranslationRepository">
-      <argument type="service" id="doctrine"/>
-      <tag name="doctrine.repository_service"/>
-    </service>
-    <service id="Kikwik\DbTransBundle\Repository\TranslationRepository" alias="kikwik_db_trans.repository.translation_repository"/>
 
     <!-- Command\ImportMessagesCommand -->
     <service id="kikwik_db_trans.command.import_messages_command" class="Kikwik\DbTransBundle\Command\ImportMessagesCommand">

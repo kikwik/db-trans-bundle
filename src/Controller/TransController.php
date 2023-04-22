@@ -6,12 +6,12 @@ namespace Kikwik\DbTransBundle\Controller;
 use Doctrine\Persistence\ManagerRegistry;
 use Kikwik\DbTransBundle\Entity\Translation;
 use Kikwik\DbTransBundle\Form\TranslationFormType;
+use Kikwik\DbTransBundle\Interfaces\TranslationEntityInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -60,7 +60,7 @@ class TransController extends AbstractController
             $data = $form->getData();
             foreach($data as $translation)
             {
-                if($translation instanceof Translation)
+                if($translation instanceof TranslationEntityInterface)
                 {
                     $this->doctrine->getManager()->persist($translation);
                 }

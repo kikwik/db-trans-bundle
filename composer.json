@@ -1,6 +1,6 @@
 {
     "name": "kikwik/db-trans-bundle",
-    "description": "Translation loader from database for symfony 5",
+    "description": "Database translation loader with on-page translations edit for symfony 5",
     "type": "symfony-bundle",
     "license": "MIT",
     "minimum-stability": "stable",
