@@ -27,18 +27,27 @@ document.addEventListener("DOMContentLoaded", function() {
                     form.addEventListener('submit',function (event){
                         event.preventDefault();
                         transModalContent.innerHTML = '<i class="fas fa-spin fa-spinner"></i> saving...';
+                        // form data
+                        const formData = new FormData(form);
+                        // append clicked button to formData
+                        if (event.submitter && event.submitter.getAttribute('name')) {
+                            formData.append(event.submitter.getAttribute('name'), event.submitter.getAttribute('name'));
+                        }
                         fetch(form.action,{
                             method: form.method,
-                            body: new FormData(form)
+                            body: formData
                         })
                             .then(function (response){
                                 return response.text();
                             })
                             .then(function (html){
                                 transModalContent.innerHTML = html;
-                                if(html == 'OK')
+                                if(html == 'REFRESH')
                                 {
                                     window.location.reload();
+                                }
+                                if(html == 'OK')
+                                {
                                     transModal.style.display = "none";
                                 }
                             })

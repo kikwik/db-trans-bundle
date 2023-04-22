@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -58,14 +60,22 @@ class TransController extends AbstractController
             $data = $form->getData();
             foreach($data as $translation)
             {
-                $this->doctrine->getManager()->persist($translation);
+                if($translation instanceof Translation)
+                {
+                    $this->doctrine->getManager()->persist($translation);
+                }
             }
             $this->doctrine->getManager()->flush();
 
-            // clear the cache
-            $application = new Application($this->kernel);
-            $application->setAutoExit(false);
-            $application->run(new ArrayInput(['command' => 'cache:clear']), new NullOutput());
+            if($form->get('saveAndUpdate')->isClicked())
+            {
+                // clear the cache
+                $application = new Application($this->kernel);
+                $application->setAutoExit(false);
+                $application->run(new ArrayInput(['command' => 'cache:clear']), new NullOutput());
+
+                return new Response('REFRESH');
+            }
 
             return new Response('OK');
         }
@@ -111,6 +121,17 @@ class TransController extends AbstractController
         {
             $formBuilder->add($locale, TranslationFormType::class);
         }
+        $formBuilder->add('save',SubmitType::class,[
+            'attr'=>['class'=>'btn btn-success'],
+            'row_attr'=>['style'=>'display:inline-block;margin-right:1rem;'],
+            'translation_domain'=>'KikwikDbTransBundle',
+        ]);
+        $formBuilder->add('saveAndUpdate',SubmitType::class,[
+            'attr'=>['class'=>'btn btn-success'],
+            'row_attr'=>['style'=>'display: inline-block;'],
+            'translation_domain'=>'KikwikDbTransBundle',
+        ]);
+
         return $formBuilder->getForm();
     }
 }

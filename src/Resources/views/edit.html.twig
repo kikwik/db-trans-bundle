@@ -1,8 +1,11 @@
-<h1>Traduzioni di <small>{{ transKey }}</small></h1>
+<button type="button" class="btn btn-secondary" style="float:right;" onclick="document.querySelector('.js-trans-modal').style.display = 'none';">
+    {{ 'Cancel'|trans({},'KikwikDbTransBundle') }}
+</button>
+
+<h1>{{ 'Translations of'|trans({},'KikwikDbTransBundle') }} <small>{{ transKey }}</small></h1>
 
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button type="submit" class="btn btn-success">Save</button>
-    <button type="button" class="btn btn-secondary" onclick="document.querySelector('.js-trans-modal').style.display = 'none';">Cancel</button>
+
 {{ form_end(form) }}
 
