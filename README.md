@@ -15,6 +15,13 @@ following command to download the latest stable version of this bundle:
 $ composer require kikwik/db-trans-bundle
 ```
 
+Update the database to create the translations tables:
+
+```console
+$ php bin/console make:miration
+$ php bin/console doctrine:migrations:migrate
+```
+
 Configuration
 -------------
 
