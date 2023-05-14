@@ -18,7 +18,7 @@ $ composer require kikwik/db-trans-bundle
 Update the database to create the translations tables:
 
 ```console
-$ php bin/console make:miration
+$ php bin/console make:migration
 $ php bin/console doctrine:migrations:migrate
 ```
 
