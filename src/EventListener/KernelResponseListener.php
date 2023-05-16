@@ -39,9 +39,12 @@ class KernelResponseListener
 EOD;
 
             $content = $response->getContent();
-            $content = str_replace('</body>',$transContent.'</body>', $content);
+            if(strpos($content, '</body>') !== false)
+            {
+                $content = str_replace('</body>',$transContent.'</body>', $content);
+                $response->setContent($content);
+            }
 
-            $response->setContent($content);
         }
     }
 }
