@@ -92,7 +92,6 @@ class ImportMessagesCommand extends Command
             $updateCount = 0;
             foreach($messages as $messageId => $message)
             {
-                $table->addRow([$messageId, $locale, $this->shortString($message)]);
                 $translation = $transRepo->findOneBy(['domain'=>$dbDomain, 'locale' => $locale, 'messageId' => $messageId]);
                 if(!$translation)
                 {
@@ -102,11 +101,13 @@ class ImportMessagesCommand extends Command
                     $translation->setMessageId($messageId);
                     $translation->setMessage($message);
                     $addCount++;
+                    $table->addRow([$messageId, $locale, $this->shortString($message)]);
                 }
                 elseif($input->getOption('reset'))
                 {
                     $translation->setMessage($message);
                     $updateCount++;
+                    $table->addRow([$messageId, $locale, $this->shortString($message)]);
                 }
                 $this->doctrine->getManager()->persist($translation);
                 $this->doctrine->getManager()->flush();
