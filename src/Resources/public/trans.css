@@ -1,17 +1,14 @@
 .js-trans-message{
-    background: rgba(241, 241, 23, 0.34);
+    background: rgba(241, 241, 23, 0.30);
 }
 .js-trans-message:hover{
     background: #f1f117;
 }
-.js-trans-message{
-    position: relative;
-}
 .js-trans-message-edit{
     display: none;
-    position: absolute;
-    bottom: 1em;
-    right: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 1em;
 }
 .js-trans-message:hover .js-trans-message-edit{
     display: inline !important;
