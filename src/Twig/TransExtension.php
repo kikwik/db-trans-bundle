@@ -75,7 +75,7 @@ class TransExtension extends AbstractExtension
             {
                 $translatedValue = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             }
-            return sprintf('<span class="js-trans-message"><img class="js-trans-message-edit" data-url="%s" style="display: none;" src="/bundles/kikwikdbtrans/trans.png"/> %s </span>',
+            return sprintf('<span class="js-trans-message"><img class="js-trans-message-edit" data-url="%s" style="display: none;" src="/bundles/kikwikdbtrans/translate.svg"/> %s </span>',
                 $this->urlGenerator->generate('kikwik_db_trans_bundle_translation_edit',['dbDomain'=>$this->domainPrefix.$domain, 'messageId'=>$message]),
                 $translatedValue,
             );
