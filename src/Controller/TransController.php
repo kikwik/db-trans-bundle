@@ -62,7 +62,14 @@ class TransController extends AbstractController
             {
                 if($translation instanceof TranslationEntityInterface)
                 {
-                    $this->doctrine->getManager()->persist($translation);
+                    if($form[$translation->getLocale()]['elimina']->getData())
+                    {
+                        $this->doctrine->getManager()->remove($translation);
+                    }
+                    else
+                    {
+                        $this->doctrine->getManager()->persist($translation);
+                    }
                 }
             }
             $this->doctrine->getManager()->flush();
