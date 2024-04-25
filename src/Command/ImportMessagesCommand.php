@@ -87,7 +87,7 @@ class ImportMessagesCommand extends Command
             $catalogue = $this->translator->getCatalogue($locale);
             $messages = $catalogue->all($domain);
             $table = new Table($output);
-            $table->setHeaders(['messageId', 'locale', 'message']);
+            $table->setHeaders(['messageId', 'locale', 'action', 'message']);
             $addCount = 0;
             $updateCount = 0;
             foreach($messages as $messageId => $message)
@@ -101,13 +101,20 @@ class ImportMessagesCommand extends Command
                     $translation->setMessageId($messageId);
                     $translation->setMessage($message);
                     $addCount++;
-                    $table->addRow([$messageId, $locale, $this->shortString($message)]);
+                    $table->addRow([$messageId, $locale, 'new', $this->shortString($message)]);
                 }
-                elseif($input->getOption('reset'))
+                else
                 {
-                    $translation->setMessage($message);
-                    $updateCount++;
-                    $table->addRow([$messageId, $locale, $this->shortString($message)]);
+                    if($input->getOption('reset'))
+                    {
+                        $translation->setMessage($message);
+                        $updateCount++;
+                        $table->addRow([$messageId, $locale, 'reset', $this->shortString($message)]);
+                    }
+                    else
+                    {
+                        $table->addRow([$messageId, $locale, '---', $this->shortString($translation->getMessage())]);
+                    }
                 }
                 $this->doctrine->getManager()->persist($translation);
                 $this->doctrine->getManager()->flush();
